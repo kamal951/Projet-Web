@@ -1,40 +1,41 @@
 <% include ../partials/header %>
 <div class="row">
   <div class="col-md-3">
-    <p class="lead">YelpCamp</p>
+   <!-- <p class="lead">YelpCamp</p>
     <div class="list-group">
       <li class="list-group-item active">Info 1</li>
       <li class="list-group-item">Info 2</li>
       <li class="list-group-item">Info 3</li>
-    </div>
+    </div> -->
+    <p class="lead">Adresse : </p>
     <div id="map"></div>
   </div>
   <div class="col-md-9">
     <div class="thumbnail">
-      <img class="img-responsive" src="<%= campground.image %>">
+      <img class="img-responsive" src="<%= annonce.image %>">
       <div class="caption-full">
         <h4 class="pull-right">
-          $<%= campground.cost %>/night
+          $<%= annonce.cost %>/night
         </h4>
-        <h4><a><%=campground.name%></a></h4>
-        <p><%= campground.description %></p>
+        <h4><a><%=annonce.name%></a></h4>
+        <p><%= annonce.description %></p>
         <p>
-          <em>Submitted by: <a href="/users/<%= campground.author.id %>"><%= campground.author.username %></a>, <%= moment(campground.createdAt).fromNow() %></em>
+          <em>Submitted by: <a href="/users/<%= annonce.author.id %>"><%= annonce.author.username %></a>, <%= moment(annonce.createdAt).fromNow() %></em>
         </p>
-        <% if(currentUser && campground.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
-        <a class="btn btn-warning" href="/campgrounds/<%= campground._id %>/edit">Edit</a>
-        <form action="/campgrounds/<%= campground._id %>?_method=DELETE" method="POST" class="delete-form">
-          <button class="btn btn-danger">Delete</button>
+        <% if(currentUser && annonce.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+        <a class="btn btn-warning" href="/annonces/<%= annonce._id %>/edit">Modifier</a>
+        <form action="/annonces/<%= annonce._id %>?_method=DELETE" method="POST" class="delete-form">
+          <button class="btn btn-danger">Supprimer</button>
         </form>
         <% } %>
       </div>
     </div>
     <div class="well">
       <div class="text-right">
-        <a class="btn btn-success" href="/campgrounds/<%= campground._id %>/comments/new">Add New Comment</a>
+        <a class="btn btn-success" href="/annonces/<%= annonce._id %>/comments/new">Ajouter un commentaire</a>
       </div>
       <hr>
-      <% campground.comments.forEach(function(comment){ %>
+      <% annonce.comments.forEach(function(comment){ %>
       <div class="row">
         <div class="col-md-12">
           <strong><%= comment.author.username %></strong>
@@ -44,9 +45,9 @@
 
            <% if(currentUser && comment.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
             <div class="pull-right">
-              <a href="/campgrounds/<%=campground._id%>/comments/<%=comment._id%>/edit" class="btn btn-xs btn-warning">EDIT</a>
-              <form class="delete-form" action="/campgrounds/<%=campground._id%>/comments/<%=comment._id%>?_method=DELETE" method="POST">
-                <button class="btn btn-xs btn-danger">DELETE</button>
+              <a href="/annonces/<%=annonce._id%>/comments/<%=comment._id%>/edit" class="btn btn-xs btn-warning">Modifier</a>
+              <form class="delete-form" action="/annonces/<%=annonce._id%>/comments/<%=comment._id%>?_method=DELETE" method="POST">
+                <button class="btn btn-xs btn-danger">Supprimer</button>
               </form>
             </div>
           <% } %>
@@ -60,8 +61,8 @@
 </div>
 <script>
   function initMap() {
-    var lat = <%= campground.lat %>;
-    var lng = <%= campground.lng %>;
+    var lat = <%= annonce.lat %>;
+    var lng = <%= annonce.lng %>;
     var center = {lat: lat, lng: lng };
     var map = new google.maps.Map(document.getElementById('map'), {
         zoom: 8,
@@ -69,9 +70,9 @@
         scrollwheel: false
     });
     var contentString = `
-      <strong><%= campground.name %><br />
-      <%= campground.location %></strong>
-      <p><%= campground.description %></p>
+      <strong><%= annonce.name %><br />
+      <%= annonce.location %></strong>
+      <p><%= annonce.description %></p>
     `
     var infowindow = new google.maps.InfoWindow({
       content: contentString
@@ -85,5 +86,5 @@
     });
   }
 </script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBkG51lwJtDvYFKTBdRZlhzYg1D4QFsXPU&callback=initMap"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBK-l0vBrR9lKb-2stG3JexEdekaBWyk-8&callback=initMap"></script>
 <% include ../partials/footer %>

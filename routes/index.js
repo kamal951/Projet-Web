@@ -2,7 +2,7 @@ var express = require("express");
 var router  = express.Router();
 var passport = require("passport");
 var User = require("../models/user");
-var Campground = require("../models/campground");
+var Annonce = require("../models/annonce");
 
 //root route
 router.get("/", function(req, res){
@@ -24,7 +24,7 @@ router.post("/register", function(req, res){
         avatar: req.body.avatar
       });
 
-    if(req.body.adminCode === 'secretcode123') {
+    if(req.body.adminCode === 'TajineChorbaYassa') {
       newUser.isAdmin = true;
     }
 
@@ -34,8 +34,8 @@ router.post("/register", function(req, res){
             return res.render("register", {error: err.message});
         }
         passport.authenticate("local")(req, res, function(){
-           req.flash("success", "Successfully Signed Up! Nice to meet you " + req.body.username);
-           res.redirect("/campgrounds"); 
+           req.flash("success", "Inscription réussi ! Bienvenue " + req.body.username);
+           res.redirect("/annonces"); 
         });
     });
 });
@@ -48,33 +48,33 @@ router.get("/login", function(req, res){
 //handling login logic
 router.post("/login", passport.authenticate("local", 
     {
-        successRedirect: "/campgrounds",
+        successRedirect: "/annonces",
         failureRedirect: "/login",
         failureFlash: true,
-        successFlash: 'Welcome to YelpCamp!'
+        successFlash: 'Bienvenue sur MonBonAppart.com!'
     }), function(req, res){
 });
 
 // logout route
 router.get("/logout", function(req, res){
    req.logout();
-   req.flash("success", "See you later!");
-   res.redirect("/campgrounds");
+   req.flash("success", "Déconnexion réussie !");
+   res.redirect("/annonces");
 });
 
 // USER PROFILE
 router.get("/users/:id", function(req, res) {
   User.findById(req.params.id, function(err, foundUser) {
     if(err) {
-      req.flash("error", "Something went wrong.");
+      req.flash("error", "Quelque chose c'est mal passé.");
       res.redirect("/");
     }
-    Campground.find().where('author.id').equals(foundUser._id).exec(function(err, campgrounds) {
+    Annonce.find().where('author.id').equals(foundUser._id).exec(function(err, annonces) {
       if(err) {
-        req.flash("error", "Something went wrong.");
+        req.flash("error", "Quelque chose c'est mal passé.");
         res.redirect("/");
       }
-      res.render("users/show", {user: foundUser, campgrounds: campgrounds});
+      res.render("users/show", {user: foundUser, annonces: annonces});
     })
   });
 });

@@ -1,6 +1,6 @@
 var express = require("express");
 var router  = express.Router();
-var Campground = require("../models/campground");
+var Annonce = require("../models/annonce");
 var Comment = require("../models/comment");
 var middleware = require("../middleware");
 var geocoder = require('geocoder');
@@ -10,39 +10,42 @@ function escapeRegex(text) {
     return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 };
 
-//INDEX - show all campgrounds
+//INDEX - show all annonces
 router.get("/", function(req, res){
   if(req.query.search && req.xhr) {
       const regex = new RegExp(escapeRegex(req.query.search), 'gi');
-      // Get all campgrounds from DB
-      Campground.find({name: regex}, function(err, allCampgrounds){
+      // Get all annonces from DB
+      Annonce.find({name: regex}, function(err, allAnnonces){
          if(err){
             console.log(err);
          } else {
-            res.status(200).json(allCampgrounds);
+            res.status(200).json(allAnnonces);
          }
       });
   } else {
-      // Get all campgrounds from DB
-      Campground.find({}, function(err, allCampgrounds){
+      // Get all annonces from DB
+      Annonce.find({}, function(err, allAnnonces){
          if(err){
              console.log(err);
          } else {
             if(req.xhr) {
-              res.json(allCampgrounds);
+              res.json(allAnnonces);
             } else {
-              res.render("campgrounds/index",{campgrounds: allCampgrounds, page: 'campgrounds'});
+              res.render("annonces/index",{annonces: allAnnonces, page: 'annonces'});
             }
          }
       });
   }
 });
 
-//CREATE - add new campground to DB
+//CREATE - add new annonce to DB
 router.post("/", middleware.isLoggedIn, function(req, res){
-  // get data from form and add to campgrounds array
+  // get data from form and add to annonces array
   var name = req.body.name;
   var image = req.body.image;
+  if(image == ""){
+      image = 'https://cdn.pixabay.com/photo/2014/12/11/14/08/hand-truck-564242_640.jpg';
+  }
   var desc = req.body.description;
   var author = {
       id: req.user._id,
@@ -53,47 +56,47 @@ router.post("/", middleware.isLoggedIn, function(req, res){
     var lat = data.results[0].geometry.location.lat;
     var lng = data.results[0].geometry.location.lng;
     var location = data.results[0].formatted_address;
-    var newCampground = {name: name, image: image, description: desc, cost: cost, author:author, location: location, lat: lat, lng: lng};
-    // Create a new campground and save to DB
-    Campground.create(newCampground, function(err, newlyCreated){
+    var newAnnonce = {name: name, image: image, description: desc, cost: cost, author:author, location: location, lat: lat, lng: lng};
+    // Create a new annonce and save to DB
+    Annonce.create(newAnnonce, function(err, newlyCreated){
         if(err){
             console.log(err);
         } else {
-            //redirect back to campgrounds page
+            //redirect back to annonces page
             console.log(newlyCreated);
-            res.redirect("/campgrounds");
+            res.redirect("/annonces");
         }
     });
   });
 });
 
-//NEW - show form to create new campground
+//NEW - show form to create new annonce
 router.get("/new", middleware.isLoggedIn, function(req, res){
-   res.render("campgrounds/new"); 
+   res.render("annonces/new"); 
 });
 
-// SHOW - shows more info about one campground
+// SHOW - shows more info about one annonce
 router.get("/:id", function(req, res){
-    //find the campground with provided ID
-    Campground.findById(req.params.id).populate("comments").exec(function(err, foundCampground){
+    //find the annonce with provided ID
+    Annonce.findById(req.params.id).populate("comments").exec(function(err, foundAnnonce){
         if(err){
           console.log(err);
         } else {
-          console.log(foundCampground)
-          //render show template with that campground
-          res.render("campgrounds/show", {campground: foundCampground});
+          console.log(foundAnnonce)
+          //render show template with that annonce
+          res.render("annonces/show", {annonce: foundAnnonce});
         }
     });
 });
 
-router.get("/:id/edit", middleware.checkUserCampground, function(req, res){
-    //find the campground with provided ID
-    Campground.findById(req.params.id, function(err, foundCampground){
+router.get("/:id/edit", middleware.checkUserAnnonce, function(req, res){
+    //find the annonce with provided ID
+    Annonce.findById(req.params.id, function(err, foundAnnonce){
         if(err){
             console.log(err);
         } else {
-            //render show template with that campground
-            res.render("campgrounds/edit", {campground: foundCampground});
+            //render show template with that annonce
+            res.render("annonces/edit", {annonce: foundAnnonce});
         }
     });
 });
@@ -104,27 +107,27 @@ router.put("/:id", function(req, res){
     var lng = data.results[0].geometry.location.lng;
     var location = data.results[0].formatted_address;
     var newData = {name: req.body.name, image: req.body.image, description: req.body.description, cost: req.body.cost, location: location, lat: lat, lng: lng};
-    Campground.findByIdAndUpdate(req.params.id, {$set: newData}, function(err, campground){
+    Annonce.findByIdAndUpdate(req.params.id, {$set: newData}, function(err, annonce){
         if(err){
             req.flash("error", err.message);
             res.redirect("back");
         } else {
             req.flash("success","Successfully Updated!");
-            res.redirect("/campgrounds/" + campground._id);
+            res.redirect("/annonces/" + annonce._id);
         }
     });
   });
 });
 
 router.delete("/:id", function(req, res) {
-  Campground.findByIdAndRemove(req.params.id, function(err, campground) {
+  Annonce.findByIdAndRemove(req.params.id, function(err, annonce) {
     Comment.remove({
       _id: {
-        $in: campground.comments
+        $in: annonce.comments
       }
     }, function(err, comments) {
-      req.flash('error', campground.name + ' deleted!');
-      res.redirect('/campgrounds');
+      req.flash('error', annonce.name + ' deleted!');
+      res.redirect('/annonces');
     })
   });
 });

@@ -1,0 +1,36 @@
+<% include ../partials/header %> 
+
+     <header class="jumbotron">
+         <div class="container">
+             <h1><i class="fa fa-home" aria-hidden="true"></i>  Bienvenue sur MonBonAppart.com</h1  >
+             <p>Consultez l'ensemble de nos annonces</p>
+             <p>
+                <a class="btn btn-primary btn-lg" href="/annonces/new">Créez votre annonce</a>
+             </p>
+              <p>
+              <form action="/annonces" method="GET" class="form-inline" id="annonce-search">
+                <div class="form-group">
+                  <input type="text" name="search" placeholder="Recherchez une annonce ..." class="form-control">
+                </div>
+              </form>
+             </p>
+         </div>
+     </header>
+     
+     <div class="row text-center flex-wrap" id="annonce-grid">
+        <% annonces.forEach(function(annonce){ %>
+            <div class="col-md-3 col-sm-6">
+                <div class="thumbnail">
+                   <img src="<%= annonce.image %>">
+                   <div class="caption">
+                       <h4><%= annonce.name %></h4>
+                   </div>
+                   <p>
+                       <a href="/annonces/<%= annonce._id %>" class="btn btn-primary">Plus d'Info</a>
+                   </p>
+                </div>
+            </div>
+        <% }); %>
+    </div>
+
+<% include ../partials/footer %>

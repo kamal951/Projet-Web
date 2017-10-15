@@ -1,26 +1,26 @@
 var Comment = require("../models/comment");
-var Campground = require("../models/campground");
+var Annonce = require("../models/annonce");
 module.exports = {
     isLoggedIn: function(req, res, next){
         if(req.isAuthenticated()){
             return next();
         }
-        req.flash("error", "You must be signed in to do that!");
+        req.flash("error", "Vous devez être connecté pour exécuter cette action !");
         res.redirect("/login");
     },
-    checkUserCampground: function(req, res, next){
+    checkUserAnnonce: function(req, res, next){
         if(req.isAuthenticated()){
-            Campground.findById(req.params.id, function(err, campground){
-               if(campground.author.id.equals(req.user._id) || req.user.isAdmin){
+            Annonce.findById(req.params.id, function(err, annonce){
+               if(annonce.author.id.equals(req.user._id) || req.user.isAdmin){
                    next();
                } else {
-                   req.flash("error", "You don't have permission to do that!");
+                   req.flash("error", "Vous n'avez pas les droits nécessaire pour exécuter cette action !");
                    console.log("BADD!!!");
-                   res.redirect("/campgrounds/" + req.params.id);
+                   res.redirect("/annonces/" + req.params.id);
                }
             });
         } else {
-            req.flash("error", "You need to be signed in to do that!");
+            req.flash("error", "Vous devez être connecté pour exécuter cette action !");
             res.redirect("/login");
         }
     },
@@ -31,12 +31,12 @@ module.exports = {
                if(comment.author.id.equals(req.user._id) || req.user.isAdmin){
                    next();
                } else {
-                   req.flash("error", "You don't have permission to do that!");
-                   res.redirect("/campgrounds/" + req.params.id);
+                   req.flash("error", "Vous devez être connecté pour exécuter cette action !");
+                   res.redirect("/annonces/" + req.params.id);
                }
             });
         } else {
-            req.flash("error", "You need to be signed in to do that!");
+            req.flash("error", "Vous devez être connecté pour exécuter cette action !");
             res.redirect("login");
         }
     }
