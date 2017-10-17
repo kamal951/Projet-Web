@@ -50,7 +50,7 @@ router.post("/login", passport.authenticate("local",
     {
         successRedirect: "/annonces",
         failureRedirect: "/login",
-        failureFlash: true,
+        failureFlash: "Identifiants incorrects",
         successFlash: 'Bienvenue sur MonBonAppart.com!'
     }), function(req, res){
 });
