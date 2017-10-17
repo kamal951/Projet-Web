@@ -45,14 +45,14 @@ h1 {
 }
 
 .slideshow li:nth-child(1) { 
-  background-image: url(https://pixabay.com/get/e831b60828f0003ed1584d05fb0938c9bd22ffd41cb1194193f3c871a3/render-1477041_1280.jpg) 
+  background-image: url(../render-1477041_1280.jpg) 
 }
 .slideshow li:nth-child(2) { 
-  background-image: url(https://pixabay.com/get/e032b90c28e90021d85a5840981318c3fe76e7d511b117429cf5c3/netherlands-97830_1280.jpg);
+  background-image: url(../netherlands-97830_1280.jpg);
   animation-delay: 10s; 
 }
 .slideshow li:nth-child(3) { 
-  background-image: url(https://pixabay.com/get/e832b30a2af4043ed1584d05fb0938c9bd22ffd41cb1194193f4c178a3/autumn-1725205_1280.jpg);
+  background-image: url(../twilight-1841523_1280.jpg);
   animation-delay: 20s; 
 }
 

@@ -29,6 +29,7 @@ app.use(methodOverride('_method'));
 app.use(cookieParser('secret'));
 //require moment
 app.locals.moment = require('moment');
+app.locals.moment.locale('fr');
 // seedDB(); //seed the database
 
 // PASSPORT CONFIGURATION

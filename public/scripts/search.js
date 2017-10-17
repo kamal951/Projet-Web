@@ -7,17 +7,18 @@ $('#annonce-search').on('input', function() {
     $('#annonce-grid').html('');
     data.forEach(function(annonce) {
       $('#annonce-grid').append(`
-        <div class="col-md-3 col-sm-6">
-          <div class="thumbnail">
-            <img src="${ annonce.image }">
-            <div class="caption">
-              <h4>${ annonce.name }</h4>
+      <div class="panel panel-success col-md-12" style="padding-right:0;padding-left:0;">
+        <div class="panel-heading text-center"><h4>${ annonce.name }</h4></div>
+        <div class="panel-body">
+            <div>
+                <img src="${ annonce.image }" style="height:200px;width:200px;float:left;">
+                <p style="color:black;">${ annonce.description }</p>
             </div>
             <p>
-              <a href="/annonces/${ annonce._id }" class="btn btn-primary">More Info</a>
+                <a href="/annonces/${ annonce._id }" class="btn btn-primary">Plus d'Info</a>
             </p>
-          </div>
         </div>
+      </div>  
       `);
     });
   });
