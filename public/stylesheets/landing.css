@@ -45,14 +45,14 @@ h1 {
 }
 
 .slideshow li:nth-child(1) { 
-  background-image: url(../render-1477041_1280.jpg) 
+  background-image: url(../images/land-1.jpg) 
 }
 .slideshow li:nth-child(2) { 
-  background-image: url(../netherlands-97830_1280.jpg);
+  background-image: url(../images/land-2.jpg);
   animation-delay: 10s; 
 }
 .slideshow li:nth-child(3) { 
-  background-image: url(../twilight-1841523_1280.jpg);
+  background-image: url(../images/land-3.jpg);
   animation-delay: 20s; 
 }
 

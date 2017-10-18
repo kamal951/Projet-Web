@@ -44,7 +44,7 @@ router.post("/", middleware.isLoggedIn, function(req, res){
   var name = req.body.name;
   var image = req.body.image;
   if(image == ""){
-      image = 'https://cdn.pixabay.com/photo/2014/12/11/14/08/hand-truck-564242_640.jpg';
+      image = '../images/default-annonce.jpg';
   }
   var desc = req.body.description;
   var author = {

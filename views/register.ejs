@@ -2,44 +2,93 @@
 <div class="row">
     <h1 style="text-align: center">Formulaire d'inscription</h1>
     <div style="width: 30%; margin: 25px auto;">
-        <form action="/register" method="post">
+        <form id="myForm" action="/register" method="post">
             <div class="form-group">
-                <label for="username">Nom d'utilisateur*</label>
-                <input class="form-control" type="text" name="username" placeholder="Nom d'utilisateur" required>
+                <label class="control-label" for="username">Nom d'utilisateur*</label>
+                <input id="req-in" class="form-control" type="text" name="username" placeholder="Nom d'utilisateur" required>
             </div>
             <div class="form-group">
-                <label for="password">Mot de passe*</label>
+                <label class="control-label" for="password">Mot de passe*</label>
                 <input class="form-control" type="password" name="password" placeholder="Mot de passe" required>
             </div>
             <div class="form-group">
-                <label for="fistName">Prénom*</label>
+                    <label class="control-label" for="confirmPassword">Confirmez votre mot de passe*</label>
+                    <input class="form-control" type="password" name="confirmPassword" placeholder="Confirmez votre mot de passe" required>
+                </div>
+            <div class="form-group">
+                <label class="control-label" for="fistName">Prénom*</label>
                 <input class="form-control" type="text" name="firstName" placeholder="Prénom" required>
             </div>
             <div class="form-group">
-                <label for="lastName">Nom de famille*</label>
+                <label class="control-label" for="lastName">Nom de famille*</label>
                 <input class="form-control" type="text" name="lastName" placeholder="Nom de famille" required>
             </div>
             <div class="form-group">
-                <label for="email">Email*</label>
-                <input class="form-control" type="email" name="email" placeholder="email" required>
+                <label class="control-label">Email</label>
+                <input type="text" class="form-control" name="email" />
             </div>
             <div class="form-group">
-                <label for="avatar">Url de votre image de profil</label>
+                <label class="control-label" for="avatar">Url de votre image de profil</label>
                 <input class="form-control" type="text" name="avatar" placeholder="Url image de profil">
             </div>
             <div class="form-group">
-                <label for="description">Code administrateur</label>
+                <label class="control-label" for="description">Code administrateur</label>
                 <p><small>Ce champs est réservé aux administrateurs</small></p>
                 <input class="form-control" type="text" name="adminCode" placeholder="Code administrateur">
             </div>
             <br>
             <p style="color:red"><small>Les champs avec * sont obligatoire</small></p>
             <div class="form-group">
-                <button class="btn btn-lg btn-primary btn-block">S'inscrire</button>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">S'inscrire</button>
             </div>
         </form>
         <a href="/annonces">Revenir à l'accueil</a>
     </div>
 </div>
-<% include ./partials/footer %>
 
+
+<% include ./partials/footer %>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.2/css/bootstrapValidator.min.css"/>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.2/js/bootstrapValidator.min.js"></script>
+<script type="text/javascript" src="http://bootstrapvalidator.votintsev.ru/vendor/bootstrapvalidator/js/language/fr_FR.js"></script>
+
+<script>
+    $('#myForm').bootstrapValidator({
+        fields: {
+            username: {
+                message: "Ce nom d'utilisateur n'est pas valide",
+                validators: {
+                    stringLength: {
+                        min: 4,
+                        max: 30
+                    },
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9]+$/
+                    },
+                    different: {
+                        field: 'password',
+                        message: "Le nom d'utilisateur et le mot de passe doivent êtres différents" 
+                    }
+                }
+            },
+            email: {
+                validators: {
+                    notEmpty: {
+                        message: 'Veuillez entrer une adresse mail valide'
+                    },
+                    emailAddress: {
+                        message: 'Veuillez entrer une adresse mail valide'
+                    }
+                }
+            },
+            confirmPassword: {
+                validators: {
+                    identical: {
+                        field: 'password',
+                        message: 'Les mots de passes ne sont pas identiques'
+                    }
+                }
+            }
+        }
+    });
+</script>
