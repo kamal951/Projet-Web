@@ -51,12 +51,12 @@ passport.deserializeUser(User.deserializeUser());
 
 app.use(function(req, res, next){
 res.locals.currentUser = req.user;
-res.locals.success = req.flash('success');
-res.locals.error = req.flash('error'); 
+res.locals.success = req.flash('success'); 
+res.locals.error = req.flash('error');
 next();
 });
 
-
+ 
 app.use("/", indexRoutes);
 app.use("/annonces", annonceRoutes);
 app.use("/annonces/:id/comments", commentRoutes);
