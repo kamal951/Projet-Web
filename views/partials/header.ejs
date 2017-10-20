@@ -7,7 +7,9 @@
       <title>MonBonAppart</title>
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
       <link rel="stylesheet" href="/stylesheets/main.css">
-  </head>
+      <!-- jQuery CDN -->
+      <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    </head>
   <body>
         <div class="header-blue">
             <nav class="navbar navbar-default">
@@ -34,7 +36,7 @@
                                 <li><a class="navbar-link login" href="/login">Connexion</a></li>
                                 <li><a class="btn btn-default action-button" role="button" href="/register" style="margin-top:10px;">Inscription</a></li>
                             <% } else { %>
-                                <li><a href="#">Connecté à <%= currentUser.username %></a></li>
+                                <li><a href="/users/<%= currentUser.id %>">Connecté à <%= currentUser.username %></a></li>
                                 <li><a href="/logout">Se déconnecter</a></li>
                             <% } %>
                         </ul>
@@ -52,3 +54,19 @@
                 <% } %>
             </div>
             <div class="container cont-all">
+                    <script>
+                            if(document.cookie === "couleur=vert"){
+                               $('body').css('background', 'linear-gradient(135deg, #009927, #7ecc52)');
+                               $('body').css('background-color', '#019729');
+                               $('body').css('background-attachment', 'fixed');
+                           }else if(document.cookie === "couleur=jaune"){
+                               $('body').css('background', 'linear-gradient(135deg, #faa202, #f8de03)');
+                               $('body').css('background-color', '#facb03');
+                               $('body').css('background-attachment', 'fixed');
+                           }else{
+                               $('body').css('background', 'linear-gradient(135deg, #172a74, #21a9af)');
+                               $('body').css('background-color', '#184e8e');
+                               $('body').css('background-attachment', 'fixed');
+                        
+                           }
+                         </script>

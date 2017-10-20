@@ -2,37 +2,46 @@
 
 <footer class="footer">
   <div class="container">
-    <p class="text-muted">&copy; MonBonAppart | <a href="/annonces">Accueil</a> | <a href="/annonces/new">Nouvelle annonce</a> | <a href="#">Crédits</a></p>
+    <p id="mavalue"></p>
+    <p>&copy; MonBonAppart | <a href="/annonces">Accueil</a> | <a href="/annonces/new">Nouvelle annonce</a> | <a href="#">Crédits</a></p>
   </div>
 </footer>
-<!-- jQuery CDN -->
-<script
-  src="https://code.jquery.com/jquery-3.1.1.min.js"
-  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-  crossorigin="anonymous"></script>
+
 <!-- Custom JS for search feature -->
 <script src="/scripts/search.js" async defer></script>
 <!-- Bootstrap JS CDN -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <!-- Font awsome JS CDN -->
 <script src="https://use.fontawesome.com/7e86776abd.js"></script>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.2/css/bootstrapValidator.min.css"/>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.2/js/bootstrapValidator.min.js"></script>
+<script type="text/javascript" src="http://bootstrapvalidator.votintsev.ru/vendor/bootstrapvalidator/js/language/fr_FR.js"></script>
+
 </body>
 </html>
 
 <script>
+  // $('#mavalue').text(localStorage.getItem(couleur));
+  var couleur = '';
   $("#jaune").click(function(){
     $('body').css('background', 'linear-gradient(135deg, #faa202, #f8de03)');
     $('body').css('background-color', '#facb03');
     $('body').css('background-attachment', 'fixed');
-  })
+    document.cookie = "couleur=jaune";
+  });
   $("#bleu").click(function(){
     $('body').css('background', 'linear-gradient(135deg, #172a74, #21a9af)');
     $('body').css('background-color', '#184e8e');
     $('body').css('background-attachment', 'fixed');
-  })
+    document.cookie = "couleur=bleu"
+  });
   $("#vert").click(function(){
     $('body').css('background', 'linear-gradient(135deg, #009927, #7ecc52)');
     $('body').css('background-color', '#019729');
     $('body').css('background-attachment', 'fixed');
-  })
+    document.cookie = "couleur=vert"
+  });
+
+  
+    
 </script>

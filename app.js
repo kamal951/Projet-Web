@@ -12,8 +12,11 @@ User        = require("./models/user"),
 session = require("express-session"),
 seedDB      = require("./seeds"),
 methodOverride = require("method-override");
+cookie = require('cookie');
 // configure dotenv
 require('dotenv').load();
+
+var cookies = cookie.parse('couleur=bleu');
 
 //requiring routes
 var commentRoutes    = require("./routes/comments"),
@@ -33,7 +36,7 @@ app.locals.moment.locale('fr');
 // seedDB(); //seed the database
 
 // PASSPORT CONFIGURATION
-app.use(require("express-session")({
+app.use(session({
 secret: "Once again Rusty wins cutest dog!",
 resave: false,
 saveUninitialized: false
@@ -49,7 +52,7 @@ passport.deserializeUser(User.deserializeUser());
 app.use(function(req, res, next){
 res.locals.currentUser = req.user;
 res.locals.success = req.flash('success');
-res.locals.error = req.flash('error');
+res.locals.error = req.flash('error'); 
 next();
 });
 

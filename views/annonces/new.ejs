@@ -2,29 +2,29 @@
 <div class="row">
     <h1 style="text-align: center">Créer une nouvelle annonce</h1>
     <div style="width: 30%; margin: 25px auto;">
-        <form action="/annonces" method="POST">
+        <form id="myForm" action="/annonces" method="POST">
             <div class="form-group">
-                <label for="name">Titre de l'annonce*</label>
+                <label class="control-label" for="name">Titre de l'annonce*</label>
                 <input class="form-control" type="text" name="name" id="name" placeholder="Titre de l'annonce" required>
             </div>
             <div class="form-group">
-                <label for="image">Url de l'image</label>
+                <label class="control-label" for="image">Url de l'image</label>
                 <input class="form-control" type="text" name="image" id="image" placeholder="https://cdn.pixabay.com/photo/2014/12/11/14/08/hand-truck-564242_640.jpg">
             </div>
             <div class="form-group">
-                <label for="cost">Prix par personne*</label>
+                <label class="control-label" for="cost">Prix par personne*</label>
                 <input class="form-control" type="number" name="cost" id="cost" placeholder="9.99" step="0.01" min="0" required>
             </div>
             <div class="form-group">
-                <label for="location">Adresse*</label>
+                <label class="control-label" for="location">Adresse*</label>
                 <input class="form-control" type="text" name="location" id="location" placeholder="74 bis Avenue Maurice Thorez, 94200 Ivry-sur-Seine" required>
             </div>
             <div class="form-group">
-                <label for="description">Description*</label>
+                <label class="control-label" for="description">Description*</label>
                 <input class="form-control" type="text" name="description" id="description" placeholder="Je déménage." required>
             </div>
             <div class="form-group">
-                <button class="btn btn-lg btn-primary btn-block">Valider</button>
+                <button type="submit" class="btn btn-lg btn-primary btn-block">Valider</button>
             </div>
         </form>
         <a href="/annonces">Revenir à l'accueil</a>
@@ -32,3 +32,7 @@
 </div>
 <% include ../partials/footer %>
 
+<script>
+    
+    $('#myForm').bootstrapValidator();
+</script>

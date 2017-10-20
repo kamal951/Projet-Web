@@ -79,5 +79,20 @@ router.get("/users/:id", function(req, res) {
   });
 });
 
+// router.get("/edit", function(req, res){
+//   res.render("users/edit"); 
+// });
+
+router.get("/users/:id/edit", function(req, res){
+  //find the annonce with provided ID
+  User.findById(req.params.id, function(err, foundUser){
+      if(err){
+          console.log(err);
+      } else {
+          //render show template with that annonce
+          res.render("users/edit", {user: foundUser});
+      }
+  });
+});
 
 module.exports = router;
