@@ -89,17 +89,25 @@
         center: myLatLng
       });
 
-      var contentStringDepart = `
+      var contentString = `
       <strong style="color:black;"><%= annonce.name %><br />
       <%= annonce.location %></strong>
       <p><%= annonce.description %></p>
     `
+      var infowindow = new google.maps.InfoWindow({
+          content: contentString
+        });
+
+    
       var marker = new google.maps.Marker({
         position: myLatLng,
         map: map,
         label: labels[labelIndex++ % labels.length],
         title: '<%= annonce.title %>'
       });
+      marker.addListener('click', function() {
+          infowindow.open(map, marker);
+        });
     }
   </script>
 
