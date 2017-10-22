@@ -12,10 +12,10 @@ User        = require("./models/user"),
 session = require("express-session"),
 seedDB      = require("./seeds"),
 methodOverride = require("method-override");
-cookie = require('cookie');
+cookie = require('cookie');   
 // configure dotenv
 require('dotenv').load();
-
+ 
 var cookies = cookie.parse('couleur=bleu');
 
 //requiring routes
@@ -51,18 +51,18 @@ passport.deserializeUser(User.deserializeUser());
 
 app.use(function(req, res, next){
 res.locals.currentUser = req.user;
-res.locals.success = req.flash('success'); 
+res.locals.success = req.flash('success');  
 res.locals.error = req.flash('error');
 next();
 });
 
  
-app.use("/", indexRoutes);
+app.use("/", indexRoutes); 
 app.use("/annonces", annonceRoutes);
 app.use("/annonces/:id/comments", commentRoutes);
 
 var port = 8888;
-
+ 
 app.listen(port, function(){
 console.log("Server open on port "+port);
-});
+});       

@@ -1,38 +1,134 @@
 <% include ../partials/header %>
-<div class="row">
-    <h1 style="text-align: center">Créer une nouvelle annonce</h1>
-    <div style="width: 30%; margin: 25px auto;">
-        <form id="myForm" action="/annonces" method="POST">
-            <div class="form-group">
-                <label class="control-label" for="name">Titre de l'annonce*</label>
-                <input class="form-control" type="text" name="name" id="name" placeholder="Titre de l'annonce" required>
-            </div>
-            <div class="form-group">
-                <label class="control-label" for="image">Url de l'image</label>
-                <input class="form-control" type="text" name="image" id="image" placeholder="https://cdn.pixabay.com/photo/2014/12/11/14/08/hand-truck-564242_640.jpg">
-            </div>
-            <div class="form-group">
-                <label class="control-label" for="cost">Prix par personne*</label>
-                <input class="form-control" type="number" name="cost" id="cost" placeholder="9.99" step="0.01" min="0" required>
-            </div>
-            <div class="form-group">
-                <label class="control-label" for="location">Adresse*</label>
-                <input class="form-control" type="text" name="location" id="location" placeholder="74 bis Avenue Maurice Thorez, 94200 Ivry-sur-Seine" required>
-            </div>
-            <div class="form-group">
-                <label class="control-label" for="description">Description*</label>
-                <input class="form-control" type="text" name="description" id="description" placeholder="Je déménage." required>
-            </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-lg btn-primary btn-block">Valider</button>
-            </div>
-        </form>
-        <a href="/annonces">Revenir à l'accueil</a>
-    </div>
-</div>
-<% include ../partials/footer %>
+    <div class="row">
+        <h1 style="text-align: center">Créer une nouvelle annonce</h1>
+        <div style="width: 30%; margin: 25px auto;">
+            <form id="myForm" action="/annonces" method="POST">
+                <div class="form-group">
+                    <label class="control-label" for="name">Titre de l'annonce*</label>
+                    <input class="form-control" type="text" name="name" id="name" placeholder="Titre de l'annonce" required>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="image">Url de l'image</label>
+                    <input class="form-control" type="text" name="image" id="image" placeholder="https://cdn.pixabay.com/photo/2014/12/11/14/08/hand-truck-564242_640.jpg">
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="cost">Prix par personne*</label>
+                    <input class="form-control" type="number" name="cost" id="cost" placeholder="9.99" step="0.01" min="0" required>
+                </div>
 
-<script>
-    
-    $('#myForm').bootstrapValidator();
-</script>
+                <div class="form-group">
+                    <div id="test">
+                        <label class="control-label" for="location">Adresse de depart*</label>
+                        <input id="location" name="location" class="autocomplete form-control" placeholder="Adresse de départ" type="text" required>
+
+                        <fieldset>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">
+                                    <code>N°</code>
+                                </label>
+                                <div class="col-sm-8">
+                                    <input class="field street_number form-control" disabled="true">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">
+                                    <code>Rue</code>
+                                </label>
+                                <div class="col-sm-8">
+                                    <input class="field route form-control" disabled="true">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">
+                                    <code>City</code>
+                                </label>
+                                <div class="col-sm-8">
+                                    <input class="field locality form-control" disabled="true">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">
+                                    <code>State</code>
+                                </label>
+                                <div class="col-sm-8">
+                                    <input class="field administrative_area_level_1 form-control" disabled="true">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">
+                                    <code>Code postal</code>
+                                </label>
+                                <div class="col-sm-8">
+                                    <input class="field postal_code form-control" disabled="true">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">
+                                    <code>Pays</code>
+                                </label>
+                                <div class="col-sm-8">
+                                    <input class="field country form-control" disabled="true">
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="description">Description*</label>
+                    <input class="form-control" type="text" name="description" id="description" placeholder="Je déménage." required>
+                </div>
+                <div class="form-group">
+                    <button id="submit-btn" type="submit" class="btn btn-lg btn-primary btn-block">Valider</button>
+                </div>
+            </form>
+            <a href="/annonces">Revenir à l'accueil</a>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&amp;key=AIzaSyCkJ9z_wl3EpCHeZz4MhxPhmulZri1V-40"></script>
+
+    <% include ../partials/footer %>
+
+        <script>
+
+            $('#myForm').bootstrapValidator();
+        </script>
+
+        <script>
+
+            var autocomplete = {};
+            var autocompletesWraps = ['test', 'test2'];
+
+            var test_form = { street_number: 'short_name', route: 'long_name', locality: 'long_name', administrative_area_level_1: 'short_name', country: 'long_name', postal_code: 'short_name' };
+            var test2_form = { street_number: 'short_name', route: 'long_name', locality: 'long_name', administrative_area_level_1: 'short_name', country: 'long_name', postal_code: 'short_name' };
+
+            function initialize() {
+
+                $.each(autocompletesWraps, function (index, name) {
+
+                    if ($('#' + name).length == 0) {
+                        return;
+                    }
+
+                    autocomplete[name] = new google.maps.places.Autocomplete($('#' + name + ' .autocomplete')[0], { types: ['geocode'] });
+
+                    google.maps.event.addListener(autocomplete[name], 'place_changed', function () {
+
+                        var place = autocomplete[name].getPlace();
+                        var form = eval(name + '_form');
+
+                        for (var component in form) {
+                            $('#' + name + ' .' + component).val('');
+                        }
+
+                        for (var i = 0; i < place.address_components.length; i++) {
+                            var addressType = place.address_components[i].types[0];
+                            if (typeof form[addressType] !== 'undefined') {
+                                var val = place.address_components[i][form[addressType]];
+                                $('#' + name + ' .' + addressType).val(val);
+                            }
+                        }
+                    });
+                });
+            }
+        </script>

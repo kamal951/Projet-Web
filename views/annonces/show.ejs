@@ -1,84 +1,106 @@
 <% include ../partials/header %>
-<div class="row">
-  <div class="col-md-3">
-    <p class="lead">Adresse : </p>
-    <div id="map"></div>
-  </div>
-  <div class="col-md-9">
-    <div class="thumbnail">
-      <img class="img-responsive" src="<%= annonce.image %>">
-      <div class="caption-full">
-        <h4 class="pull-right" style="color:black">
-          $<%= annonce.cost %>/personne
-        </h4>
-        <h4 style="color:black"><a style="color:black"><%=annonce.name%></a></h4>
-        <p style="color:black"><%= annonce.description %></p>
-        <p style="color:black">
-          <em>Posté par : <a href="/users/<%= annonce.author.id %>" style="color:blue"><%= annonce.author.username %></a>, <%= moment(annonce.createdAt).fromNow() %></em>
-        </p>
-        <% if(currentUser && annonce.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
-        <a class="btn btn-warning" href="/annonces/<%= annonce._id %>/edit">Modifier</a>
-        <form action="/annonces/<%= annonce._id %>?_method=DELETE" method="POST" class="delete-form">
-          <button class="btn btn-danger">Supprimer</button>
-        </form>
-        <% } %>
-      </div>
+  <div class="row">
+    <div class="col-md-3">
+      <p class="lead">Adresse : </p>
+      <div id="map"></div>
     </div>
-    <div class="well">
-      <div class="text-right">
-        <a class="btn btn-success" href="/annonces/<%= annonce._id %>/comments/new">Ajouter un commentaire</a>
-      </div>
-      <hr>
-      <% annonce.comments.forEach(function(comment){ %>
-      <div class="row">
-        <div class="col-md-12">
-          <strong style="color:black"><%= comment.author.username %></strong>
-          <span class="pull-right" style="color:black"><%= moment(comment.createdAt).fromNow() %></span>
-          <div style="color:black">
-           <%= comment.text %> 
-
-           <% if(currentUser && comment.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
-            <div class="pull-right">
-              <a href="/annonces/<%=annonce._id%>/comments/<%=comment._id%>/edit" class="btn btn-xs btn-warning">Modifier</a>
-              <form class="delete-form" action="/annonces/<%=annonce._id%>/comments/<%=comment._id%>?_method=DELETE" method="POST">
-                <button class="btn btn-xs btn-danger">Supprimer</button>
-              </form>
-            </div>
-          <% } %>
-          <hr>
+    <div class="col-md-9">
+      <div class="thumbnail">
+        <img class="img-responsive" src="<%= annonce.image %>">
+        <div class="caption-full">
+          <h4 class="pull-right" style="color:black">
+            $
+            <%= annonce.cost %>/personne
+          </h4>
+          <h4 style="color:black">
+            <a style="color:black">
+              <%=annonce.name%>
+            </a>
+          </h4>
+          <p style="color:black">
+            <%= annonce.description %>
+          </p>
+          <p style="color:black">
+            <em>Posté par :
+              <a href="/users/<%= annonce.author.id %>" style="color:blue">
+                <%= annonce.author.username %>
+              </a>,
+              <%= moment(annonce.createdAt).fromNow() %>
+            </em>
+          </p>
+          <% if(currentUser && annonce.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+            <a class="btn btn-warning" href="/annonces/<%= annonce._id %>/edit">Modifier</a>
+            <form action="/annonces/<%= annonce._id %>?_method=DELETE" method="POST" class="delete-form">
+              <button class="btn btn-danger">Supprimer</button>
+            </form>
+            <% } %>
         </div>
       </div>
+      <div class="well">
+        <div class="text-right">
+          <a class="btn btn-success" href="/annonces/<%= annonce._id %>/comments/new">Ajouter un commentaire</a>
+        </div>
+        <hr>
+        <% annonce.comments.forEach(function(comment){ %>
+          <div class="row">
+            <div class="col-md-12">
+              <strong style="color:black">
+                <%= comment.author.username %>
+              </strong>
+              <span class="pull-right" style="color:black">
+                <%= moment(comment.createdAt).fromNow() %>
+              </span>
+              <div style="color:black">
+                <%= comment.text %>
+
+                  <% if(currentUser && comment.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+                    <div class="pull-right">
+                      <a href="/annonces/<%=annonce._id%>/comments/<%=comment._id%>/edit" class="btn btn-xs btn-warning">Modifier</a>
+                      <form class="delete-form" action="/annonces/<%=annonce._id%>/comments/<%=comment._id%>?_method=DELETE" method="POST">
+                        <button class="btn btn-xs btn-danger">Supprimer</button>
+                      </form>
+                    </div>
+                    <% } %>
+                      <hr>
+              </div>
+            </div>
+          </div>
+          <% }) %>
+      </div>
     </div>
-    <% }) %>
   </div>
-</div>
-</div>
-<script>
-  function initMap() {
-    var lat = <%= annonce.lat %>;
-    var lng = <%= annonce.lng %>;
-    var center = {lat: lat, lng: lng };
-    var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 8,
-        center: center,
-        scrollwheel: false
-    });
-    var contentString = `
-      <strong><%= annonce.name %><br />
+
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCkJ9z_wl3EpCHeZz4MhxPhmulZri1V-40&callback=initMap"></script>
+
+  <script>
+
+    var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    var labelIndex = 0;
+
+
+    function initMap() {
+      var myLatLng = {
+        lat: <%= annonce.lat %>, 
+        lng: <%= annonce.lng %>
+    };
+
+      var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 12,
+        center: myLatLng
+      });
+
+      var contentStringDepart = `
+      <strong style="color:black;"><%= annonce.name %><br />
       <%= annonce.location %></strong>
       <p><%= annonce.description %></p>
     `
-    var infowindow = new google.maps.InfoWindow({
-      content: contentString
-    });
-    var marker = new google.maps.Marker({
-        position: center,
-        map: map
-    });
-    marker.addListener('click', function() {
-      infowindow.open(map, marker);
-    });
-  }
-</script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBK-l0vBrR9lKb-2stG3JexEdekaBWyk-8&callback=initMap"></script>
-<% include ../partials/footer %>
+      var marker = new google.maps.Marker({
+        position: myLatLng,
+        map: map,
+        label: labels[labelIndex++ % labels.length],
+        title: '<%= annonce.title %>'
+      });
+    }
+  </script>
+
+  <% include ../partials/footer %>
