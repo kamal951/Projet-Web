@@ -21,7 +21,8 @@ router.post("/register", function(req, res){
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         email: req.body.email,
-        avatar: req.body.avatar
+        avatar: req.body.avatar,
+        description: req.body.description
       });
 
     if(req.body.adminCode === 'TajineChorbaYassa') {
@@ -67,7 +68,7 @@ router.get("/users/:id", function(req, res) {
   User.findById(req.params.id, function(err, foundUser) {
     if(err) {
       req.flash("error", "Quelque chose c'est mal passé.");
-      res.redirect("/");
+      res.redirect("/");    
     }
     Annonce.find().where('author.id').equals(foundUser._id).exec(function(err, annonces) {
       if(err) {
@@ -78,10 +79,6 @@ router.get("/users/:id", function(req, res) {
     })
   });
 });
-
-// router.get("/edit", function(req, res){
-//   res.render("users/edit"); 
-// });
 
 router.get("/users/:id/edit", function(req, res){
   //find the annonce with provided ID
@@ -94,5 +91,6 @@ router.get("/users/:id/edit", function(req, res){
       }
   });
 });
+
 
 module.exports = router;

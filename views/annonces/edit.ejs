@@ -16,8 +16,63 @@
                 <input class="form-control" type="number" name="cost" id="cost" value="<%= annonce.cost %>" step="0.01" min="0" required>
             </div>
             <div class="form-group">
-                <label for="location">Adresse</label>
-                <input class="form-control" type="text" name="location" id="location" value="<%= annonce.location %>">
+                <label class="control-label">Adresse*</label>
+                <fieldset>
+                    <div class="form-group">
+                        <input id="location" name="location" class="form-control" placeholder="Adresse ..." value="<%= annonce.location %>">
+                    </div>
+                </fieldset>
+
+                <fieldset class="disabled">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">
+                            <code>N°</code>
+                        </label>
+                        <div class="col-sm-8">
+                            <input id="street_number" name="street_number" disabled="true" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">
+                            <code>Rue</code>
+                        </label>
+                        <div class="col-sm-8">
+                            <input id="route" name="route" disabled="true" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">
+                            <code>Ville</code>
+                        </label>
+                        <div class="col-sm-8">
+                            <input id="locality" name="locality" disabled="true" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">
+                            <code>Département</code>
+                        </label>
+                        <div class="col-sm-8">
+                            <input id="administrative_area_level_1" name="administrative_area_level_1" disabled="true" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">
+                            <code>Code postal</code>
+                        </label>
+                        <div class="col-sm-8">
+                            <input id="postal_code" name="postal_code" disabled="true" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">
+                            <code>Pays</code>
+                        </label>
+                        <div class="col-sm-8">
+                            <input id="country" name="country" disabled="true" class="form-control">
+                        </div>
+                    </div>
+                </fieldset>
             </div>
             <div class="form-group">
                 <label for="description">Description</label>
@@ -30,5 +85,44 @@
         <a href="/annonces">Revenir à accueil</a>
     </div>
 </div>
-<% include ../partials/footer %>
+
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&amp;key=AIzaSyCkJ9z_wl3EpCHeZz4MhxPhmulZri1V-40"></script>
+
+    <% include ../partials/footer %>
+
+        <script>
+
+            $('#myForm').bootstrapValidator();
+        </script>
+
+        <script>
+            function initializeAutocomplete(id) {
+                var element = document.getElementById(id);
+                if (element) {
+                    var autocomplete = new google.maps.places.Autocomplete(element, { types: ['geocode'] });
+                    google.maps.event.addListener(autocomplete, 'place_changed', onPlaceChanged);
+                }
+            }
+
+            function onPlaceChanged() {
+                var place = this.getPlace();
+
+                // console.log(place);  // Uncomment this line to view the full object returned by Google API.
+
+                for (var i in place.address_components) {
+                    var component = place.address_components[i];
+                    for (var j in component.types) {  // Some types are ["country", "political"]
+                        var type_element = document.getElementById(component.types[j]);
+                        if (type_element) {
+                            type_element.value = component.long_name;
+                        }
+                    }
+                }
+            }
+
+            google.maps.event.addDomListener(window, 'load', function () {
+                initializeAutocomplete('location');
+            });
+        </script>
 

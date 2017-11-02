@@ -1,37 +1,44 @@
-<% include ../partials/header %> 
+<% include ../partials/header %>
 
-     <div class="jumbotron">
-         <div class="container">
-             <h1><i class="fa fa-home" aria-hidden="true"></i>  Bienvenue sur MonBonAppart.com</h1  >
-             <p>Consultez l'ensemble de nos annonces</p>
-             <p>
+    <div class="jumbotron">
+        <div class="container">
+            <h1>
+                <i class="fa fa-home" aria-hidden="true"></i> Bienvenue sur MonBonAppart.com</h1>
+            <p>Consultez l'ensemble de nos annonces</p>
+            <p>
                 <a class="btn btn-primary btn-lg" href="/annonces/new">Créez votre annonce</a>
-             </p>
-              <p>
-              <form action="/annonces" method="GET" class="form-inline" id="annonce-search">
-                <div class="form-group">
-                  <input type="text" name="search" placeholder="Recherchez une annonce ..." class="form-control">
-                </div>
-              </form>
-             </p>
-         </div>
+            </p>
+            <p>
+                <form action="/annonces" method="GET" class="form-inline" id="annonce-search">
+                    <div class="form-group">
+                        <input type="text" name="search" placeholder="Recherchez une annonce ..." class="form-control">
+                    </div>
+                </form>
+            </p>
         </div>
-     
-     <div class="row flex-wrap" id="annonce-grid">
+    </div>
+
+    <div class="row flex-wrap" id="annonce-grid">
         <% annonces.forEach(function(annonce){ %>
             <div class="panel panel-success col-md-12" style="padding-right:0;padding-left:0;">
-                <div class="panel-heading text-center"><h4><%= annonce.name %></h4></div>
+                <div class="panel-heading text-center">
+                    <h4>
+                        <%= annonce.name %>
+                    </h4>
+                </div>
                 <div class="panel-body">
                     <div>
                         <img src="<%= annonce.image %>" style="height:200px;width:200px;float:left;">
-                        <p style="color:black;"><%= annonce.description %></p>
+                        <p style="color:black;">
+                            <%= annonce.description %>
+                        </p>
                     </div>
                     <p>
                         <a href="/annonces/<%= annonce._id %>" class="btn btn-primary">Plus d'Info</a>
                     </p>
                 </div>
-            </div>  
-        <% }); %>
+            </div>
+            <% }); %>
     </div>
 
-<% include ../partials/footer %>
+    <% include ../partials/footer %>
