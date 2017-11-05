@@ -137,7 +137,7 @@ router.delete("/:id", function (req, res) {
                 $in: annonce.comments
             }
         }, function (err, comments) {
-            req.flash('error', annonce.name + ' deleted!');
+            req.flash('error', 'L\'annonce "' + annonce.name + '" à bien été suprimée !');
             res.redirect('/annonces');
         })
     });
