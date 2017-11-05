@@ -23,7 +23,7 @@
 
 				</div>
 				<% if(user._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
-					<a class="btn btn-warning" href="/users/<%= user._id %>/edit">Modifier</a>
+					<a id="modifUserBtn" class="btn btn-warning" href="/users/<%= user._id %>/edit">Modifier</a>
 				<% } %>
 			</div>
 		</div>
