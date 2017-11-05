@@ -3,10 +3,10 @@ var router  = express.Router();
 var passport = require("passport");
 var User = require("../models/user");
 var Annonce = require("../models/annonce");
-
+var middleware = require("../middleware");
 //root route
 router.get("/", function(req, res){
-    res.render("landing");
+    res.render("landing");  
 });
 
 // show register form
@@ -16,12 +16,16 @@ router.get("/register", function(req, res){
 
 //handle sign up logic
 router.post("/register", function(req, res){
+    var imageProfile = req.body.avatar;
+    if(imageProfile == ""){
+        imageProfile = '../images/profile-default.png';
+    }
     var newUser = new User({
         username: req.body.username,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         email: req.body.email,
-        avatar: req.body.avatar,
+        avatar: imageProfile,
         description: req.body.description
       });
 
@@ -80,7 +84,7 @@ router.get("/users/:id", function(req, res) {
   });
 });
 
-router.get("/users/:id/edit", function(req, res){
+router.get("/users/:id/edit", middleware.checkUser , function(req, res){
   //find the annonce with provided ID
   User.findById(req.params.id, function(err, foundUser){
       if(err){
@@ -90,6 +94,35 @@ router.get("/users/:id/edit", function(req, res){
           res.render("users/edit", {user: foundUser});
       }
   });
+});
+
+router.put("/users/:id", function (req, res) {
+    var imageProfile = req.body.avatar;
+    if(imageProfile == ""){
+        imageProfile = '../images/profile-default.png';
+    }
+    var newData = {
+        username: req.body.username,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        avatar: imageProfile,
+        description: req.body.description
+      };
+
+    if(req.body.adminCode === 'TajineChorbaYassa') {
+        newData.isAdmin = true;
+    }
+    
+    User.findByIdAndUpdate(req.params.id, { $set: newData }, function (err, user) {
+        if (err) {
+            req.flash("error", err.message);
+            res.redirect("back");
+        } else {
+            req.flash("success", "Profil utilisateur modifié avec succès");
+            res.redirect("/users/" + user._id);
+        }
+    });
 });
 
 

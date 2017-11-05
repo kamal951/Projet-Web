@@ -1,22 +1,58 @@
 <% include ../partials/header %>
+	<link rel="stylesheet" href="/stylesheets/user.css">
+	<div class="row">
+		<div class="col-lg-12 col-sm-12">
+			<div class="card hovercard">
+				<div class="cardheader">
+				</div>
+				<div class="avatar">
+					<img class="thumbnail roundedImage" alt="" src="<%= user.avatar %>">
+				</div>
+				<div class="info">
+					<div class="title">
+						<p>
+							<%= user.firstName + " " + user.lastName %>
+						</p>
+					</div>
+					<div class="desc">
+						<%= user.description %>
+					</div>
+					<a style="color:#262626" href="mailto:<%= user.email %>">
+						<%= user.email %>
+					</a>
 
-<div class="row">
-	<div class="col-md-4">
-			<h1><%= user.firstName + " " + user.lastName %></h1>
-		<div class="thumbnail">
-			<img src="<%= user.avatar %>" alt="user profile image">
-			<div class="caption"><a href="mailto:<%= user.email %>"><%= user.email %></a></div>
+				</div>
+				<% if(user._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+					<a class="btn btn-warning" href="/users/<%= user._id %>/edit">Modifier</a>
+				<% } %>
+			</div>
 		</div>
-		<%= user.description %>
-	</div>
-	<div class="col-md-8">
-		<h3>Annonces postée par <%= user.username %>:</h3>
-		<ul>
-		<% annonces.forEach(function(annonce) { %>
-			<li><a href="/annonces/<%= annonce.id %>"><%= annonce.name %></a></li>
-		<% }); %>
-		</ul>
-	</div>
-</div>
 
-<% include ../partials/footer %>
+		<div class="col-md-12">
+			<h3>Annonces postée par
+				<%= user.username %>:</h3>
+			<% annonces.forEach(function(annonce) { %>
+				<div class="panel panel-success col-md-12" style="padding-right:0;padding-left:0;">
+					<div class="panel-heading text-center">
+						<h4>
+							<%= annonce.name %>
+						</h4>
+					</div>
+					<div class="panel-body">
+						<div>
+							<img src="<%= annonce.image %>" style="height:200px;width:200px;float:left;">
+							<p style="color:black;">
+								<%= annonce.description %>
+							</p>
+						</div>
+						<p>
+							<a href="/annonces/<%= annonce._id %>" class="btn btn-primary">Plus d'Info</a>
+						</p>
+					</div>
+				</div>
+				<% }); %>
+
+		</div>
+	</div>
+
+	<% include ../partials/footer %>

@@ -8,6 +8,19 @@ module.exports = {
         req.flash("error", "Vous devez être connecté pour exécuter cette action !");
         res.redirect("/login");
     },
+    checkUser : function(req, res, next){
+        if(req.isAuthenticated()){
+            if(req.user.id === req.params.id){
+                next();
+                console.log("Same ids");
+            }else{
+                console.log("Not same ids");
+                req.flash("error", "Vous devez être connecté pour exécuter cette action !");
+                res.redirect("/users/" + req.params.id);
+            }
+        }
+    }
+    ,
     checkUserAnnonce: function(req, res, next){
         if(req.isAuthenticated()){
             Annonce.findById(req.params.id, function(err, annonce){
