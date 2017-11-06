@@ -1,71 +1,112 @@
 <!DOCTYPE html>
 <html lang="fr">
-  <head>
-      <meta charset="utf-8">
-      <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>MonBonAppart</title>
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-      <link rel="stylesheet" href="/stylesheets/main.css">
-      <!-- jQuery CDN -->
-      <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
-    </head>
-  <body>
-        <div class="header-blue">
-            <nav class="navbar navbar-default">
-                <div class="container">
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
 
-                        <a class="navbar-brand" href="/">MonBonAppart</a>
-                    </div>
-                    <div id="navbar" class="collapse navbar-collapse">
-                        <ul class="nav navbar-nav">
-                        <li  ><a href="/annonces">Accueil</a></li>
-                        </ul>
-                        <ul class="nav navbar-nav navbar-right">
-                            <li><a href="#" id="bleu"><img src="../images/color-blue.png" style="margin-left:-15px;"></a></li>
-                            <li><a href="#" id="jaune"><img src="../images/color-yellow.png" style="margin-left:-15px;"></a></li>
-                            <li><a href="#" id="vert"><img src="../images/color-green.png" style="margin-left:-15px;"></a></li>
-                            <% if(!currentUser){ %>
-                                <li><a class="navbar-link login" href="/login">Connexion</a></li>
-                                <li><a class="btn btn-default action-button" role="button" href="/register" style="margin-top:10px;">Inscription</a></li>
-                            <% } else { %>
-                                <li><a href="/users/<%= currentUser.id %>">Connecté à <%= currentUser.username %></a></li>
-                                <li><a href="/logout">Se déconnecter</a></li>
-                            <% } %>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-            
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MonBonAppart</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/stylesheets/main.css">
+    <!-- jQuery CDN -->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="header-blue">
+        <nav class="navbar navbar-default">
             <div class="container">
-                <% if(error && error.length > 0) { %>
-                <div class="alert alert-danger"><p><%=error %></p></div>
-                <% } %>
-                
-                <% if(success && success.length > 0) { %>
-                <div class="alert alert-success"><p><%= success %></p></div>
-                <% } %>
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+                        aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+
+                    <a class="navbar-brand" href="/">MonBonAppart</a>
+                </div>
+                <div id="navbar" class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="/annonces">Accueil</a>
+                        </li>
+                        <% if(currentUser && currentUser.isAdmin){ %>
+                            <li>
+                                <a href="/admin">Administration</a>
+                            </li>
+                            <% } %>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="#" id="bleu">
+                                <img src="../images/color-blue.png" style="margin-left:-15px;">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" id="jaune">
+                                <img src="../images/color-yellow.png" style="margin-left:-15px;">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" id="vert">
+                                <img src="../images/color-green.png" style="margin-left:-15px;">
+                            </a>
+                        </li>
+                        <% if(!currentUser){ %>
+                            <li>
+                                <a class="navbar-link login" href="/login">Connexion</a>
+                            </li>
+                            <li>
+                                <a class="btn btn-default action-button" role="button" href="/register" style="margin-top:10px;">Inscription</a>
+                            </li>
+                            <% } else { %>
+                                <li>
+                                    <a href="/users/<%= currentUser.id %>">Connecté à
+                                        <%= currentUser.username %>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/logout">Se déconnecter</a>
+                                </li>
+                                <% } %>
+                    </ul>
+                </div>
             </div>
-            <div class="container cont-all">
-                    <script>
-                            if(document.cookie === "couleur=vert"){
-                               $('body').css('background', 'linear-gradient(135deg, #009927, #7ecc52)');
-                               $('body').css('background-color', '#019729');
-                               $('body').css('background-attachment', 'fixed');
-                           }else if(document.cookie === "couleur=jaune"){
-                               $('body').css('background', 'linear-gradient(135deg, #faa202, #f8de03)');
-                               $('body').css('background-color', '#facb03');
-                               $('body').css('background-attachment', 'fixed');
-                           }else{
-                               $('body').css('background', 'linear-gradient(135deg, #172a74, #21a9af)');
-                               $('body').css('background-color', '#184e8e');
-                               $('body').css('background-attachment', 'fixed');
-                           }
-                         </script>
+        </nav>
+
+        <div class="container">
+            <% if(error && error.length > 0) { %>
+                <div class="alert alert-danger">
+                    <p>
+                        <%=error %>
+                    </p>
+                </div>
+                <% } %>
+
+                    <% if(success && success.length > 0) { %>
+                        <div class="alert alert-success">
+                            <p>
+                                <%= success %>
+                            </p>
+                        </div>
+                        <% } %>
+        </div>
+        <div class="container cont-all">
+            <script>
+                if (document.cookie === "couleur=vert") {
+                    $('body').css('background', 'linear-gradient(135deg, #009927, #7ecc52)');
+                    $('body').css('background-color', '#019729');
+                    $('body').css('background-attachment', 'fixed');
+                } else if (document.cookie === "couleur=jaune") {
+                    $('body').css('background', 'linear-gradient(135deg, #faa202, #f8de03)');
+                    $('body').css('background-color', '#facb03');
+                    $('body').css('background-attachment', 'fixed');
+                } else {
+                    $('body').css('background', 'linear-gradient(135deg, #172a74, #21a9af)');
+                    $('body').css('background-color', '#184e8e');
+                    $('body').css('background-attachment', 'fixed');
+                }
+            </script>

@@ -22,9 +22,11 @@
 					</a>
 
 				</div>
-				<% if(user._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+				<% if(currentUser){
+					if(user._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
 					<a id="modifUserBtn" class="btn btn-warning" href="/users/<%= user._id %>/edit">Modifier</a>
-				<% } %>
+				<% } 
+					}%>
 			</div>
 		</div>
 

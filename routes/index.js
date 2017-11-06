@@ -125,5 +125,12 @@ router.put("/users/:id", function (req, res) {
     });
 });
 
+router.get("/admin", middleware.checkUserAdmin ,function(req, res){
+    User.find({}).exec(function(err, users) {   
+        if (err) throw err;
+        res.render("admin", { "users": users });
+    });
+    
+});
 
 module.exports = router;

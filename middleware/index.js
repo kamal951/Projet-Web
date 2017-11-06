@@ -19,8 +19,15 @@ module.exports = {
                 res.redirect("/users/" + req.params.id);
             }
         }
-    }
-    ,
+    },
+    checkUserAdmin : function(req, res, next){
+        if(req.isAuthenticated() && req.user.isAdmin){
+            next();
+        }else{
+            req.flash("error", "Vous n'êtes pas autorisé à acceder à cette page !");
+            res.redirect("/annonces");
+        }
+    },
     checkUserAnnonce: function(req, res, next){
         if(req.isAuthenticated()){
             Annonce.findById(req.params.id, function(err, annonce){
