@@ -4,7 +4,7 @@
   "description": "Site d'annonce de demenagement",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js",
+    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Kamal ALLALI, Mohamed FOFANA, Nadjim SADJI",
