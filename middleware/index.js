@@ -33,7 +33,7 @@ module.exports = {
             next();
         }else{
             req.flash("error", "Votre compte est bloqué, veuillez contacter un admisinistrateur du site !");
-            res.redirect("/annonces");
+            res.redirect(req.get('referer'));
         }
     },
     checkUserAnnonce: function(req, res, next){
