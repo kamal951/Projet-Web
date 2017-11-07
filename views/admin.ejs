@@ -37,19 +37,16 @@
         } %>
           </td>
           <td>
-            <% if(!user.isAdmin){
-          %>
               <input class="toggleKamal" id="<%= user._id %>" type="checkbox" <% if(user.status){ %> checked
               <% } %> data-toggle="toggle" data-on="Actif" data-off="Bloqué" data-onstyle="success" data-offstyle="danger" data-size="small">
           </td>
-          <% } %>
         </tr>
         <% }); %>
     </tbody>
   </table>
 
   <% include ./partials/footer %>
-  
+
     <script type="text/javascript">
       $(function () {
         $('input:checkbox').change(function () {
