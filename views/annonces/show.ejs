@@ -28,7 +28,7 @@
               <%= moment(annonce.createdAt).fromNow() %>
             </em>
           </p>
-          <% if(currentUser && annonce.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+          <% if(currentUser && annonce.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin || currentUser.status){ %>
             <a class="btn btn-warning" href="/annonces/<%= annonce._id %>/edit">Modifier</a>
             <form action="/annonces/<%= annonce._id %>?_method=DELETE" method="POST" class="delete-form">
               <button class="btn btn-danger">Supprimer</button>

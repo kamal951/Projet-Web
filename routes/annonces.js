@@ -39,7 +39,7 @@ router.get("/", function (req, res) {
 });
 
 //CREATE - add new annonce to DB
-router.post("/", middleware.isLoggedIn, function (req, res) {
+router.post("/", middleware.isLoggedIn, middleware.checkUserStatus, function (req, res) {
     // get data from form and add to annonces array
     var name = req.body.name;
     var image = req.body.image;
@@ -77,7 +77,7 @@ router.post("/", middleware.isLoggedIn, function (req, res) {
 });
 
 //NEW - show form to create new annonce
-router.get("/new", middleware.isLoggedIn, function (req, res) {
+router.get("/new", middleware.isLoggedIn, middleware.checkUserStatus, function (req, res) {
     res.render("annonces/new");
 });
 
@@ -95,7 +95,7 @@ router.get("/:id", function (req, res) {
     });
 });
 
-router.get("/:id/edit", middleware.checkUserAnnonce, function (req, res) {
+router.get("/:id/edit", middleware.checkUserAnnonce, middleware.checkUserStatus, function (req, res) {
     //find the annonce with provided ID
     Annonce.findById(req.params.id, function (err, foundAnnonce) {
         if (err) {
@@ -130,7 +130,7 @@ router.put("/:id", function (req, res) {
     });
 });
 
-router.delete("/:id", function (req, res) {
+router.delete("/:id", middleware.checkUserStatus, function (req, res) {
     Annonce.findByIdAndRemove(req.params.id, function (err, annonce) {
         Comment.remove({
             _id: {

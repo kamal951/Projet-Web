@@ -28,6 +28,14 @@ module.exports = {
             res.redirect("/annonces");
         }
     },
+    checkUserStatus : function(req, res, next){
+        if(req.isAuthenticated() && req.user.status){
+            next();
+        }else{
+            req.flash("error", "Votre compte est bloqué, veuillez contacter un admisinistrateur du site !");
+            res.redirect("/annonces");
+        }
+    },
     checkUserAnnonce: function(req, res, next){
         if(req.isAuthenticated()){
             Annonce.findById(req.params.id, function(err, annonce){

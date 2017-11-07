@@ -85,7 +85,7 @@ router.get("/users/:id", function(req, res) {
   });
 });
 
-router.get("/users/:id/edit", middleware.checkUser , function(req, res){
+router.get("/users/:id/edit", middleware.checkUser , middleware.checkUserStatus, function(req, res){
   //find the annonce with provided ID
   User.findById(req.params.id, function(err, foundUser){
       if(err){
@@ -126,7 +126,7 @@ router.put("/users/:id", function (req, res) {
     });
 });
 
-router.get("/admin", middleware.checkUserAdmin ,function(req, res){
+router.get("/admin", middleware.checkUserAdmin, function(req, res){
     User.find({}).exec(function(err, users) {   
         if (err) throw err;
         res.render("admin", { "users": users });
