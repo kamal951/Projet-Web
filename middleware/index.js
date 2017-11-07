@@ -10,12 +10,12 @@ module.exports = {
     },
     checkUser : function(req, res, next){
         if(req.isAuthenticated()){
-            if(req.user.id === req.params.id){
+            if(req.user.id === req.params.id || req.user.isAdmin){
                 next();
                 console.log("Same ids");
             }else{
                 console.log("Not same ids");
-                req.flash("error", "Vous devez être connecté pour exécuter cette action !");
+                req.flash("error", "Seul le propriétaire de ce compte peux éxecuter cette action !");
                 res.redirect("/users/" + req.params.id);
             }
         }
