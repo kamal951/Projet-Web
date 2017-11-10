@@ -11,7 +11,7 @@ Comment     = require("./models/comment"),
 User        = require("./models/user"),
 session = require("express-session"),
 seedDB      = require("./seeds"),
-methodOverride = require("method-override");
+methodOverride = require("method-override"),
 cookie = require('cookie');   
 // configure dotenv
 require('dotenv').load();
