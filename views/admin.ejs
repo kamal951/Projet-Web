@@ -6,8 +6,7 @@
   <table class="table">
     <thead>
       <tr>
-        <th>Prénom</th>
-        <th>Nom</th>
+        <th>Nom Prénom</th>
         <th>Email</th>
         <th>Administrateur</th>
         <th>Status</th>
@@ -17,10 +16,7 @@
       <% users.forEach(function(user){ %>
         <tr>
           <td>
-            <%= user.firstName %>
-          </td>
-          <td>
-            <%= user.lastName %>
+            <a href="/users/<%= user._id %>"><%= user.lastName %> <%= user.firstName %></a>
           </td>
           <td>
             <%= user.email %>

@@ -138,7 +138,7 @@ router.post("/admin", function(req, res){
         if (err) {
             console.log("Erreur modif user : "+err);
         } else {
-            console.log("Utilisateur"+" "+req.body.id+" modifié avec succès");
+            console.log("Status utilisateur"+" "+req.body.id+" modifié avec succès");
         }
     })
 });
