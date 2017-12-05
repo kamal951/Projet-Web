@@ -19,7 +19,22 @@ methodOverride = require("method-override"),
 cookie = require('cookie');   
 // configure dotenv
 require('dotenv').load();
- 
+
+io.configure('production', function(){
+    console.log(doodlr + " set config for production");
+    io.enable('browser client minification');  // send minified client
+    io.enable('browser client etag');          // apply etag caching logic based on version number
+    io.enable('browser client gzip');          // gzip the file
+    io.set('log level', 1);                    // reduce logging
+    io.set('transports', [                     // enable all transports (optional if you want flashsocket)
+        'websocket'
+      , 'flashsocket'
+      , 'htmlfile'
+      , 'xhr-polling'
+      , 'jsonp-polling'
+    ]);
+  });
+
 var cookies = cookie.parse('couleur=bleu');
 
 //requiring routes
@@ -70,7 +85,7 @@ app.use("/annonces", annonceRoutes);
 app.use("/annonces/:id/comments", commentRoutes);
 
 
-var port = 8889;
+var port = 8888;
 
 var html = require('fs').readFileSync('./views/conv.ejs');
 //var server = require('http').createServer(app);
@@ -86,6 +101,10 @@ server.listen(port, function(){
 
 }*/
  
+
+
+server.listen(3000);
+
 io.sockets.on('connection', function (socket, pseudo) {
 
     // Dès qu'on nous donne un pseudo, on le stocke en variable de session et on informe les autres personnes
