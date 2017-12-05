@@ -10,12 +10,12 @@ module.exports = {
     },
     checkUser : function(req, res, next){
         if(req.isAuthenticated()){
-            if(req.user.id === req.params.id){
+            if(req.user.id === req.params.id || req.user.isAdmin){
                 next();
                 console.log("Same ids");
             }else{
                 console.log("Not same ids");
-                req.flash("error", "Vous devez être connecté pour exécuter cette action !");
+                req.flash("error", "Seul le propriétaire de ce compte peux éxecuter cette action !");
                 res.redirect("/users/" + req.params.id);
             }
         }
@@ -26,6 +26,14 @@ module.exports = {
         }else{
             req.flash("error", "Vous n'êtes pas autorisé à acceder à cette page !");
             res.redirect("/annonces");
+        }
+    },
+    checkUserStatus : function(req, res, next){
+        if(req.isAuthenticated() && req.user.status){
+            next();
+        }else{
+            req.flash("error", "Votre compte est bloqué, veuillez contacter un admisinistrateur du site !");
+            res.redirect(req.get('referer'));
         }
     },
     checkUserAnnonce: function(req, res, next){

@@ -1,37 +1,56 @@
 <% include ./partials/header %>
-<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.0/css/bootstrap-toggle.min.css" rel="stylesheet">
-<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/js/bootstrap-toggle.min.js"></script>
-<h1>Page d'aministration du site</h1>
+  <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.0/css/bootstrap-toggle.min.css" rel="stylesheet">
+  <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/js/bootstrap-toggle.min.js"></script>
+  <h1>Page d'aministration du site</h1>
 
-<table class="table">
+  <table class="table">
     <thead>
       <tr>
-        <th>Prénom</th>
-        <th>Nom</th>
+        <th>Nom Prénom</th>
         <th>Email</th>
         <th>Administrateur</th>
         <th>Status</th>
       </tr>
     </thead>
     <tbody>
-        <% users.forEach(function(user){ %>
-      <tr>
-        <td><%= user.firstName %></td>
-        <td><%= user.lastName %></td>
-        <td><%= user.email %></td>
-        <td><% if(user.isAdmin){
+      <% users.forEach(function(user){ %>
+        <tr>
+          <td>
+            <a href="/users/<%= user._id %>"><%= user.lastName %> <%= user.firstName %></a>
+          </td>
+          <td>
+            <%= user.email %>
+          </td>
+          <td>
+            <% if(user.isAdmin){
             %>
-            <span class="label label-success">Oui</span>
-            <%
+              <span class="label label-success">Oui</span>
+              <%
         }else{
             %>
-            <span class="label label-danger">Non</span>
-            <%
-        } %></td>
-        <td><input type="checkbox" checked data-toggle="toggle" data-on="Actif" data-off="Bloqué" data-onstyle="success" data-offstyle="danger" data-size="small"></td>
-      </tr>
-      <% }); %>
+                <span class="label label-danger">Non</span>
+                <%
+        } %>
+          </td>
+          <td>
+              <input class="toggleKamal" id="<%= user._id %>" type="checkbox" <% if(user.status){ %> checked
+              <% } %> data-toggle="toggle" data-on="Actif" data-off="Bloqué" data-onstyle="success" data-offstyle="danger" data-size="small">
+          </td>
+        </tr>
+        <% }); %>
     </tbody>
   </table>
 
-<% include ./partials/footer %>
+  <% include ./partials/footer %>
+
+    <script type="text/javascript">
+      $(function () {
+        $('input:checkbox').change(function () {
+          $.ajax({
+            url: "/admin",
+            type: "POST",
+            data: { 'id': this.id, 'status': $(this).prop('checked') }
+          });
+        })
+      })
+    </script>

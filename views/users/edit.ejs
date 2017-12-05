@@ -8,14 +8,6 @@
                 <input id="req-in" class="form-control" type="text" name="username" value="<%= user.username %>" placeholder="Nom d'utilisateur" required>
             </div>
             <div class="form-group">
-                <label class="control-label" for="password">Mot de passe*</label>
-                <input class="form-control" type="password" name="password" value="<%= user.password %>" placeholder="Mot de passe" required>
-            </div>
-            <div class="form-group">
-                    <label class="control-label" for="confirmPassword">Confirmez votre mot de passe*</label>
-                    <input class="form-control" type="password" name="confirmPassword" value="<%= user.password %>" placeholder="Confirmez votre mot de passe" required>
-                </div>
-            <div class="form-group">
                 <label class="control-label" for="fistName">Prénom*</label>
                 <input class="form-control" type="text" name="firstName" value="<%= user.firstName %>" placeholder="Prénom" required>
             </div>
@@ -68,10 +60,6 @@
                     },
                     regexp: {
                         regexp: /^[a-zA-Z0-9]+$/
-                    },
-                    different: {
-                        field: 'password',
-                        message: "Le nom d'utilisateur et le mot de passe doivent êtres différents" 
                     }
                 }
             },
@@ -82,14 +70,6 @@
                     },
                     emailAddress: {
                         message: 'Veuillez entrer une adresse mail valide'
-                    }
-                }
-            },
-            confirmPassword: {
-                validators: {
-                    identical: {
-                        field: 'password',
-                        message: 'Les mots de passes ne sont pas identiques'
                     }
                 }
             }

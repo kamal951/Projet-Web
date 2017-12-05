@@ -26,7 +26,8 @@ router.post("/register", function(req, res){
         lastName: req.body.lastName,
         email: req.body.email,
         avatar: imageProfile,
-        description: req.body.description
+        description: req.body.description,
+        status: true
       });
 
     if(req.body.adminCode === 'TajineChorbaYassa') {
@@ -84,7 +85,7 @@ router.get("/users/:id", function(req, res) {
   });
 });
 
-router.get("/users/:id/edit", middleware.checkUser , function(req, res){
+router.get("/users/:id/edit", middleware.checkUser , middleware.checkUserStatus, function(req, res){
   //find the annonce with provided ID
   User.findById(req.params.id, function(err, foundUser){
       if(err){
@@ -125,12 +126,21 @@ router.put("/users/:id", function (req, res) {
     });
 });
 
-router.get("/admin", middleware.checkUserAdmin ,function(req, res){
+router.get("/admin", middleware.checkUserAdmin, function(req, res){
     User.find({}).exec(function(err, users) {   
         if (err) throw err;
         res.render("admin", { "users": users });
     });
-    
+});
+
+router.post("/admin", function(req, res){
+    User.findByIdAndUpdate(req.body.id, {status: req.body.status}, function (err, user) {
+        if (err) {
+            console.log("Erreur modif user : "+err);
+        } else {
+            console.log("Status utilisateur"+" "+req.body.id+" modifié avec succès");
+        }
+    })
 });
 
 router.get("/conv", function(req,res){

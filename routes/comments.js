@@ -5,7 +5,7 @@ var Comment = require("../models/comment");
 var middleware = require("../middleware");
 
 //Comments New
-router.get("/new", middleware.isLoggedIn, function(req, res){
+router.get("/new", middleware.isLoggedIn, middleware.checkUserStatus, function(req, res){
     // find annonce by id
     console.log(req.params.id);
     Annonce.findById(req.params.id, function(err, annonce){
@@ -18,7 +18,7 @@ router.get("/new", middleware.isLoggedIn, function(req, res){
 });
 
 //Comments Create
-router.post("/",middleware.isLoggedIn,function(req, res){
+router.post("/",middleware.isLoggedIn, middleware.checkUserStatus, function(req, res){
    //lookup annonce using ID
    Annonce.findById(req.params.id, function(err, annonce){
        if(err){
@@ -45,7 +45,7 @@ router.post("/",middleware.isLoggedIn,function(req, res){
    });
 });
 
-router.get("/:commentId/edit", middleware.isLoggedIn, function(req, res){
+router.get("/:commentId/edit", middleware.isLoggedIn, middleware.checkUserStatus, function(req, res){
     // find annonce by id
     Comment.findById(req.params.commentId, function(err, comment){
         if(err){
@@ -67,7 +67,7 @@ router.put("/:commentId", function(req, res){
    }); 
 });
 
-router.delete("/:commentId",middleware.checkUserComment, function(req, res){
+router.delete("/:commentId",middleware.checkUserComment, middleware.checkUserStatus, function(req, res){
     Comment.findByIdAndRemove(req.params.commentId, function(err, comment){
         if(err){
             console.log(err);
