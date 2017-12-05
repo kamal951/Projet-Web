@@ -133,4 +133,9 @@ router.get("/admin", middleware.checkUserAdmin ,function(req, res){
     
 });
 
+router.get("/conv", function(req,res){
+    res.render("conv", {page: "conv"});
+});
+
+
 module.exports = router;

@@ -1,5 +1,9 @@
-var express     = require("express"),
+var express     = require('express'),
 app         = express(),
+server = require('http').Server(app), 
+io = require('socket.io')(server),
+ent = require('ent'), 
+fs = require('fs'),
 bodyParser  = require("body-parser"),
 mongoose    = require("mongoose"),
 passport    = require("passport"),
@@ -49,10 +53,14 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+
 app.use(function(req, res, next){
 res.locals.currentUser = req.user;
 res.locals.success = req.flash('success');  
 res.locals.error = req.flash('error');
+
+res.header("Access-Control-Allow-Origin", "*");
+res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 next();
 });
 
@@ -61,8 +69,51 @@ app.use("/", indexRoutes);
 app.use("/annonces", annonceRoutes);
 app.use("/annonces/:id/comments", commentRoutes);
 
-var port = 8888;
+
+var port = 8889;
+
+var html = require('fs').readFileSync('./views/conv.ejs');
+//var server = require('http').createServer(app);
+//var io = require("socket.io")(server);
+
+server.listen(port, function(){
+    console.log("Server open on port "+port);
+    });      
+
+/*io.of('/'+).on('connection',function(socket){
+    
+});
+
+}*/
  
-app.listen(port, function(){
-console.log("Server open on port "+port);
-});       
+io.sockets.on('connection', function (socket, pseudo) {
+
+    // Dès qu'on nous donne un pseudo, on le stocke en variable de session et on informe les autres personnes
+
+    socket.on('nouveau_client', function(pseudo) {
+
+        pseudo = ent.encode(pseudo);
+
+        socket.pseudo = pseudo;
+
+        socket.broadcast.emit('nouveau_client', pseudo);
+
+    });
+
+
+    // Dès qu'on reçoit un message, on récupère le pseudo de son auteur et on le transmet aux autres personnes
+
+    socket.on('message', function (message) {
+
+        message = ent.encode(message);
+
+        socket.broadcast.emit('message', {pseudo: socket.pseudo, message: message});
+
+    }); 
+
+});
+            
+
+//app.listen(port);
+
+ 
