@@ -4,7 +4,7 @@ Ce site à pour but de mettre en relation des déménageurs et des personnes sou
 
 Ce site est développé par ALLALI Kamal, FOFANA Mohamed et SADJI Nadjim dans le cadre de la formation d'ingénieur à l'ESIEA.
 
-Nous avons utilisé les technologies suivantes : Node.js (Express et socket.io) et MongoDB en utilisant une architecture MVC.
+Nous avons utilisé les technologies suivantes : Node.js (Express, ejs et socket.io), bootstrap et MongoDB en utilisant une architecture MVC.
 
 Fonctionnalités présentes dans le site :
 
