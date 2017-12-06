@@ -147,5 +147,9 @@ router.get("/conv", function(req,res){
     res.render("conv", {page: "conv"});
 });
 
+router.get("/credits", function(req,res){
+    res.render("credits", {page: "credits"});
+});
+
 
 module.exports = router;
