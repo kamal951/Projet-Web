@@ -25,9 +25,8 @@
 				<% if(currentUser){
 					if(user._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
 					<a id="modifUserBtn" class="btn btn-warning" href="/users/<%= user._id %>/edit">Modifier</a>
-				<% } 
-					}%>
-					<button class="btnContact" onclick="window.open('/conv', '_blank');">Contacter</button>
+					<% } 
+				}%>
 			</div>
 			
 		</div>
